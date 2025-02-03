@@ -1,0 +1,114 @@
+.container {
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: var(--tea-primary-800);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.faqSection h2,
+.inquiryForm h2 {
+  font-size: 1.5rem;
+  color: var(--tea-primary-700);
+  margin-bottom: 1.5rem;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faqItem {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.qMark {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--tea-primary-500);
+}
+
+.question h3 {
+  color: var(--tea-primary-700);
+}
+
+.answer {
+  display: flex;
+  gap: 1rem;
+  color: #666;
+}
+
+.aMark {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #666;
+}
+
+.form {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--tea-primary-700);
+}
+
+.formGroup input,
+.formGroup textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--tea-primary-400);
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--tea-primary-500);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background: var(--tea-primary-600);
+}

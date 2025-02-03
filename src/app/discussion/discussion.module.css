@@ -1,0 +1,64 @@
+.container {
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: var(--tea-primary-800);
+}
+
+.writeButton {
+  padding: 0.5rem 1.5rem;
+  background-color: var(--tea-primary-500);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.postList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.postCard {
+  padding: 1.5rem;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.postHeader {
+  margin-bottom: 1rem;
+}
+
+.postHeader h3 {
+  font-size: 1.25rem;
+  color: var(--tea-primary-700);
+  margin-bottom: 0.5rem;
+}
+
+.postMeta {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.postPreview {
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.postFooter {
+  display: flex;
+  justify-content: space-between;
+  color: #666;
+  font-size: 0.9rem;
+}
