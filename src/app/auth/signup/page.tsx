@@ -1,9 +1,14 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "./signup.module.css";
+import api from "@/lib/api";
+import { AxiosError } from "axios";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     userName: "",
     userEmail: "",
@@ -11,38 +16,44 @@ export default function SignupPage() {
     userPasswordConfirm: "",
   });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
     if (formData.userPassword !== formData.userPasswordConfirm) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }
 
+    if (formData.userPassword.length < 6 || formData.userPassword.length > 20) {
+      setError("비밀번호는 6-20자 사이여야 합니다.");
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
-      const response = await fetch("http://localhost:8080/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userName: formData.userName,
-          userEmail: formData.userEmail,
-          userPassword: formData.userPassword,
-          role: "USER",
-        }),
+      await api.post("/auth/signup", {
+        userName: formData.userName,
+        userEmail: formData.userEmail,
+        userPassword: formData.userPassword,
+        role: "USER",
       });
 
-      if (!response.ok) {
-        throw new Error("회원가입에 실패했습니다.");
+      router.push("/auth/login?registered=true");
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        setError(
+          err.response?.data?.message ||
+            "회원가입에 실패했습니다. 다시 시도해주세요."
+        );
+      } else {
+        setError("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
       }
-
-      const data = await response.json();
-      // 회원가입 성공 처리 (예: 로그인 페이지로 리다이렉트)
-      console.log("회원가입 성공:", data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "회원가입에 실패했습니다.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -63,6 +74,7 @@ export default function SignupPage() {
               }
               placeholder="이름을 입력하세요"
               required
+              disabled={isLoading}
             />
           </div>
           <div className={styles.formGroup}>
@@ -76,6 +88,7 @@ export default function SignupPage() {
               }
               placeholder="이메일을 입력하세요"
               required
+              disabled={isLoading}
             />
           </div>
           <div className={styles.formGroup}>
@@ -89,6 +102,7 @@ export default function SignupPage() {
               }
               placeholder="비밀번호를 입력하세요 (6-20자)"
               required
+              disabled={isLoading}
             />
           </div>
           <div className={styles.formGroup}>
@@ -105,10 +119,15 @@ export default function SignupPage() {
               }
               placeholder="비밀번호를 다시 입력하세요"
               required
+              disabled={isLoading}
             />
           </div>
-          <button type="submit" className={styles.submitButton}>
-            가입하기
+          <button
+            type="submit"
+            className={styles.submitButton}
+            disabled={isLoading}
+          >
+            {isLoading ? "가입 중..." : "가입하기"}
           </button>
         </form>
         <div className={styles.links}>

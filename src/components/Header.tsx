@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import styles from "./Header.module.css";
+import Link from "next/link";
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -28,8 +29,9 @@ export default function Header() {
               onBlur={() => setIsSearchOpen(false)}
             />
           </div>
-
-          <button className={styles.loginButton}>로그인</button>
+          <Link href="/auth/login">
+            <button className={styles.loginButton}>로그인</button>
+          </Link>
         </div>
       </div>
     </header>
