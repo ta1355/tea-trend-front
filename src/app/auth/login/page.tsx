@@ -1,48 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./login.module.css";
-import { useAuth } from "@/app/contexts/AuthContext";
-import api from "@/lib/api";
-import { AxiosError } from "axios";
+import axios from "axios";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuth();
   const [formData, setFormData] = useState({
     userEmail: "",
     userPassword: "",
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-
-  useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    if (query.get("registered") === "true") {
-      setSuccessMessage("회원가입이 완료되었습니다. 로그인하세요.");
-    }
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     setError("");
+    setIsLoading(true);
 
     try {
-      const response = await api.post("/auth/login", formData);
-      await login(response.data.access_token);
+      const response = await axios.post("/api/auth/login", formData);
+      localStorage.setItem("token", response.data.token);
       router.push("/");
-    } catch (err: unknown) {
-      if (err instanceof AxiosError) {
-        setError(
-          err.response?.data?.message ||
-            "로그인에 실패했습니다. 다시 시도해주세요."
-        );
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data.message || "로그인에 실패했습니다.");
       } else {
-        setError("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+        setError("알 수 없는 오류가 발생했습니다.");
       }
     } finally {
       setIsLoading(false);
@@ -53,9 +38,6 @@ export default function LoginPage() {
     <div className={styles.container}>
       <div className={styles.formCard}>
         <h1>로그인</h1>
-        {successMessage && (
-          <div className={styles.success}>{successMessage}</div>
-        )}
         {error && <div className={styles.error}>{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
@@ -94,14 +76,6 @@ export default function LoginPage() {
             {isLoading ? "로그인 중..." : "로그인"}
           </button>
         </form>
-        <div className={styles.links}>
-          <Link href="/auth/signup" className={styles.link}>
-            회원가입
-          </Link>
-          <Link href="/auth/forgot-password" className={styles.link}>
-            비밀번호 찾기
-          </Link>
-        </div>
       </div>
     </div>
   );

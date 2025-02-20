@@ -9,10 +9,6 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <div>
-          <h1 className={styles.title}>Tea Trend</h1>
-        </div>
-
         <div className={styles.rightSection}>
           <div
             className={`${styles.searchContainer} ${

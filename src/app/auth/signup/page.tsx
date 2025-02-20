@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./signup.module.css";
-import api from "@/lib/api";
-import { AxiosError } from "axios";
+import axios from "axios";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -35,18 +33,17 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      await api.post("/auth/signup", {
+      await axios.post("/api/auth/signup", {
         userName: formData.userName,
         userEmail: formData.userEmail,
         userPassword: formData.userPassword,
-        role: "USER",
       });
 
       router.push("/auth/login?registered=true");
-    } catch (err: unknown) {
-      if (err instanceof AxiosError) {
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
         setError(
-          err.response?.data?.message ||
+          err.response.data.message ||
             "회원가입에 실패했습니다. 다시 시도해주세요."
         );
       } else {
@@ -132,9 +129,9 @@ export default function SignupPage() {
         </form>
         <div className={styles.links}>
           <span>이미 계정이 있으신가요?</span>
-          <Link href="/auth/login" className={styles.link}>
+          <a href="/auth/login" className={styles.link}>
             로그인하기
-          </Link>
+          </a>
         </div>
       </div>
     </div>

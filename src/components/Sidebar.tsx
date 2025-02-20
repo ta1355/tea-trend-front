@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import styles from "./Sidebar.module.css";
 
 const menuItems = [
-  { name: "토론장", path: "/discussion", icon: "📚" },
+  { name: "자유게시판", path: "/freeboard", icon: "📚" },
   { name: "매거진", path: "/magazine", icon: "📖" },
   { name: "이용문의", path: "/inquiry", icon: "💬" },
   { name: "구인구직", path: "/jobs", icon: "🔍" },
